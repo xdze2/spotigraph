@@ -17,5 +17,5 @@ setup(
     python_requires='~=3.7',
     dependency_links=[],
     entry_points={},
-    scripts=[''],
+    scripts=[],
 )
