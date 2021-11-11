@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import NamedTuple, List
 from tekore.model import ModelList, FullArtist
 from .apicall import get_base64_image
@@ -16,8 +16,11 @@ class Artist:
             full_artist.id,
             full_artist.name,
             full_artist.popularity,
-            image=get_base64_image(full_artist.images[-1].url)
+            image=get_base64_image(full_artist.images[2].url)
         )
+
+    def asdict(self):
+        return asdict(self)
 
 
 def test_artist_type():
