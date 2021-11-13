@@ -45,3 +45,7 @@ def get_base64_image(url):
     return f"data:image/jpg;base64,{base64_message}"
 
 
+
+def search_artist(query: str):
+    artists, = SPOTIFY.search(query, types=('artist',))
+    return list(SPOTIFY.all_items(artists))
