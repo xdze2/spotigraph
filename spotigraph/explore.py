@@ -1,16 +1,19 @@
 
 
+from typing import List
+from collections import Counter
+
 from .apicall import get_related
 from .types import Artist
 
 
-from collections import Counter
+def get_first_gen(artist_id: str) -> List[Artist]:
+    return [Artist.from_FullArtist(arti) for arti in get_related(artist_id)]
 
 
 def get_second_gen(artist_id: str) -> Counter:
 
-    artist_id = "0wf6vuNqTvdRGrmpsPu2kW"
-    related_first_gen = [Artist.from_FullArtist(arti) for arti in get_related(artist_id)]
+    related_first_gen = get_first_gen(artist_id)
 
     related_twice = Counter(related_first_gen)
     for artist in related_first_gen:
@@ -20,3 +23,4 @@ def get_second_gen(artist_id: str) -> Counter:
         )
 
     return related_twice
+
