@@ -1,28 +1,21 @@
 
 
-
-from spotigraph.explore import get_first_gen
+from spotigraph.explore import get_first_gen, get_second_gen
 from spotigraph.types import Artist
-
+from spotigraph.mapeq import build_links
+from spotigraph.mapeq import export_to_pajek, to_integer_graph
 
 
 artist_id = "2omAWwH1ZV9JYIyfMUQSgG"
 
-nodes = get_first_gen(artist_id)
 
-links = []
-for node in nodes:
-    print('-----------')
-    print(node.name)
-    related_nodes = get_first_gen(node.id)
-    for related in related_nodes:
-        if related in nodes:
-            links.append((node, related))
-            print('   ', related.name)
+second_gen = get_second_gen(artist_id)
 
 
+nodes = [artist for artist, _count in second_gen.most_common(20)]
 
-from spotigraph.mapeq import export_to_pajek, to_integer_graph
+
+links = build_links(nodes)
 
 
 sorted_nodes, links_by_ids = to_integer_graph(nodes, links)
