@@ -6,6 +6,7 @@ import requests
 
 import tekore as tk
 from tekore.model import ModelList, FullArtist
+from tekore.model import Image as TekoreImage
 from diskcache import Cache
 
 from .auth import load_token
@@ -38,7 +39,12 @@ def download_image(url: str):
     r = requests.get(url)
     return r.content
 
-def get_base64_image(url):
+def get_base64_image(image: TekoreImage) -> str:
+    try:
+        url = image.url
+    except AttributeError:
+        return ''
+        
     content = download_image(url)
     base64_encoded_data = base64.b64encode(content)
     base64_message = base64_encoded_data.decode('utf-8')
