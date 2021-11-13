@@ -44,29 +44,4 @@ def get_base64_image(url):
     base64_message = base64_encoded_data.decode('utf-8')
     return f"data:image/jpg;base64,{base64_message}"
 
-# print(base64_message)
 
-# html = f'<img src="data:image/jpg;base64,{base64_message}">'
-
-# with open('yo.html', 'w') as f:
-#     f.write(html)
-
-
-
-
-
-
-
-
-
-# def explore(artists: Iterable[Node]) -> Tuple[Set[Node], Set[Link]]:
-#     new_artists = set()
-#     links = set()
-#     for node in artists:
-#         for is_related in get_related(node.id):
-#             related = Node.from_obj(is_related)
-#             link = Link(node, related)
-#             links.add(link)
-#             if related not in artists:
-#                 new_artists.add(related)
-#     return new_artists, links
