@@ -17,11 +17,15 @@ spotify = tk.Spotify(load_token())
 
 
 
-top_tracks = spotify.current_user_top_tracks(time_range='medium_term', limit=20, offset=0)
+top_tracks = spotify.current_user_top_tracks(time_range='medium_term')
+
+top_tracks = list(spotify.all_items(top_tracks))
+
 # spotify.all_items(
-print(top_tracks)
-
-
-track_id = "4b3Z1LHSSOuaRP3z7NKJuA"
+# print(top_tracks)
+print(type(top_tracks))
+print(len(top_tracks))
+# track_id = "4b3Z1LHSSOuaRP3z7NKJuA"
+track_id = top_tracks[0].id
 audio = spotify.track_audio_features(track_id)
-analys = spotify.track_audio_analysis(track_id)
+# analys = spotify.track_audio_analysis(track_id)
