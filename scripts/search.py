@@ -10,7 +10,7 @@ import click
 @click.argument('query')
 @click.option('-n', default=5, show_default=True)
 def search(query, n: int=5):
-    artists = search_artist(query)
+    artists = search_artist(query, limit=n)
     for arti in artists[:n]:
         print(arti.name, arti.id)
 

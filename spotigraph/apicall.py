@@ -52,6 +52,6 @@ def get_base64_image(image: TekoreImage) -> str:
 
 
 
-def search_artist(query: str):
-    artists, = SPOTIFY.search(query, types=('artist',))
+def search_artist(query: str, limit: int = None):
+    artists, = SPOTIFY.search(query, types=('artist',), limit=limit)
     return list(SPOTIFY.all_items(artists))
