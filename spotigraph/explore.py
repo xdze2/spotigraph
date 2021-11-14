@@ -3,7 +3,7 @@
 from typing import List
 from collections import Counter
 
-from .apicall import get_related
+from .apicall import get_related, get_followed_artists
 from .types import Artist
 
 
@@ -24,3 +24,7 @@ def get_second_gen(artist_id: str) -> Counter:
 
     return related_twice
 
+
+def get_user_library() -> List[Artist]:
+    return [Artist.from_FullArtist(arti) for arti in get_followed_artists()]
+    
