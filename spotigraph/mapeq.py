@@ -9,16 +9,17 @@ from .types import Artist
 
 from .explore import get_first_gen
 
-def build_links(nodes: List[Artist]) -> List[Tuple[Artist, Artist]]:
+def build_links(nodes: List[Artist], verbose: bool=False) -> List[Tuple[Artist, Artist]]:
     links = []
     for node in nodes:
-        print('-----------')
-        print(node.name)
+        if verbose:
+            print('-----------')
+            print(node.name)
         related_nodes = get_first_gen(node.id)
         for related in related_nodes:
             if related in nodes:
                 links.append((node, related))
-                print('   ', related.name)
+                if verbose: print('   ', related.name)
     return links
 
 
