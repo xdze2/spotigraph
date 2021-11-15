@@ -5,10 +5,11 @@ import base64
 import requests
 
 import tekore as tk
-from tekore.model import ModelList, FullArtist
+from tekore.model import ModelList, FullArtist, AudioFeatures, FullTrack
 from tekore.model import Image as TekoreImage
 from diskcache import Cache
 
+from typing import List
 from .auth import load_token
 
 
@@ -33,6 +34,16 @@ def get_related(art_id: str) -> ModelList[FullArtist]:
 def get_artist(artist_id: str) -> FullArtist:
     return SPOTIFY.artist(artist_id)
 
+@CACHE.memoize()
+def get_audio_features(track_id: str) -> AudioFeatures:
+    return SPOTIFY.track_audio_features(track_id)
+
+
+@CACHE.memoize(expire=24*60*60)
+def get_user_top_tracks(time_range='medium_term') -> List[FullTrack]:
+    return list(SPOTIFY.all_items(
+        SPOTIFY.current_user_top_tracks(time_range=time_range)
+    ))
 
 @CACHE.memoize()
 def download_image(url: str):
