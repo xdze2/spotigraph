@@ -50,6 +50,14 @@ def download_image(url: str):
     r = requests.get(url)
     return r.content
 
+
+@CACHE.memoize()
+def get_artist_top_tracks(artist_id: str):
+    return list(SPOTIFY.all_items(
+        SPOTIFY.artist_top_tracks(artist_id)
+    ))
+
+
 def get_base64_image(image: TekoreImage) -> str:
     try:
         url = image.url
