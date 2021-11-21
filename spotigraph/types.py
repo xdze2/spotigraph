@@ -10,7 +10,10 @@ from .apicall import get_base64_image
 
 def select_image(images: List[TekoreImage], target_size: int) -> TekoreImage:
     if not images:
-        return None
+        return TekoreImage(
+            f"https://picsum.photos/id/237/{target_size}/{target_size}",
+            height=target_size, width=target_size
+        )
     elif len(images) == 1:
         return images[0]
     else:
