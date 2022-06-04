@@ -1,13 +1,15 @@
-import time
 import base64
-import requests
+import time
+from typing import List
 
-import tekore as tk
-from tekore.model import ModelList, FullArtist, AudioFeatures, FullTrack
-from tekore.model import Image as TekoreImage
+import requests
 from diskcache import Cache
 
-from typing import List
+import tekore as tk
+from tekore.model import AudioFeatures, FullArtist, FullTrack
+from tekore.model import Image as TekoreImage
+from tekore.model import ModelList
+
 from .auth import load_token
 
 
