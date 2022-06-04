@@ -1,5 +1,3 @@
-
-
 from typing import List
 from collections import Counter
 
@@ -27,4 +25,3 @@ def get_second_gen(artist_id: str) -> Counter:
 
 def get_user_library() -> List[Artist]:
     return [Artist.from_FullArtist(arti) for arti in get_followed_artists()]
-    

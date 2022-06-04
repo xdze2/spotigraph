@@ -1,7 +1,12 @@
 
 
-from spotigraph.apicall import get_user_top_tracks, get_audio_features
+from dataclasses import asdict
 
+import altair as alt
+import pandas as pd
+from altair import datum
+from rich import print as pprint
+from spotigraph.apicall import get_audio_features, get_user_top_tracks
 
 
 top_tracks = get_user_top_tracks(time_range='medium_term')
@@ -9,9 +14,7 @@ print(len(top_tracks))
 
 # analys = spotify.track_audio_analysis(track_id)
 
-from rich import print as pprint
-import pandas as pd
-from dataclasses import asdict
+
 
 df = pd.DataFrame.from_records(
     asdict(get_audio_features(track.id)) for track in top_tracks
@@ -20,8 +23,7 @@ df = pd.DataFrame.from_records(
 print(df)
 
 
-import altair as alt
-from altair import datum
+
 
 
 metrics = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'key', 'liveness', 'loudness', 'mode',

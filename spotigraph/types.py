@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass, field, asdict
 from typing import NamedTuple, List
 
@@ -12,26 +11,17 @@ def select_image(images: List[TekoreImage], target_size: int) -> TekoreImage:
     if not images:
         return TekoreImage(
             f"https://picsum.photos/id/237/{target_size}/{target_size}",
-            height=target_size, width=target_size
+            height=target_size,
+            width=target_size,
         )
     elif len(images) == 1:
         return images[0]
     else:
-        squares = [
-            image
-            for image in images
-            if image.width == image.height
-        ]
+        squares = [image for image in images if image.width == image.height]
         if len(squares) > 1:
-            return min(
-                squares,
-                key = lambda im: abs(im.width - target_size)
-            )
+            return min(squares, key=lambda im: abs(im.width - target_size))
         else:
-            return min(
-                images,
-                key = lambda im: abs(im.width - target_size)
-            )
+            return min(images, key=lambda im: abs(im.width - target_size))
 
 
 @dataclass(unsafe_hash=True)
@@ -42,12 +32,12 @@ class Artist:
     image: str = field(compare=False, default=None, repr=False)
 
     @classmethod
-    def from_FullArtist(cls, full_artist: FullArtist) -> 'Artist':
+    def from_FullArtist(cls, full_artist: FullArtist) -> "Artist":
         return cls(
             full_artist.id,
             full_artist.name,
             full_artist.popularity,
-            image=get_base64_image(select_image(full_artist.images, 100))
+            image=get_base64_image(select_image(full_artist.images, 100)),
         )
 
     def asdict(self):
@@ -55,9 +45,9 @@ class Artist:
 
 
 def test_artist_type():
-    a = Artist('56', '12', 44)
-    b = Artist('56', '01012', 44)
-    c = Artist('5116', '01012', 44)
+    a = Artist("56", "12", 44)
+    b = Artist("56", "01012", 44)
+    c = Artist("5116", "01012", 44)
 
     assert a == b
     assert a != c
