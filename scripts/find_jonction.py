@@ -17,5 +17,16 @@ second_gen_b = get_second_gen(artist_id_b)
 
 jonction = second_gen_a & second_gen_b
 
+print('Junction')
+print('--------')
 for art, count in jonction.most_common():
-    print(count, art.name)
+    print(f'{count: 3d}', art.name)
+
+
+
+
+print('--------')
+for (artA, countA), (artB, countB) in zip(second_gen_a.most_common(), second_gen_b.most_common()):
+    print(f"{artA.name:>30}", f'{countA: 3d}', '-', f'{countB: 3d}', artB.name)
+
+
