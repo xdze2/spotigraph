@@ -70,6 +70,7 @@ def get_base64_image(image: TekoreImage) -> str:
     return f"data:image/jpg;base64,{base64_message}"
 
 
-def search_artist(query: str, limit: int = None):
+@CACHE.memoize(expire=24 * 60 * 60)
+def search_artist(query: str, limit: int = None) -> List[FullArtist]:
     (artists,) = SPOTIFY.search(query, types=("artist",), limit=limit)
     return list(SPOTIFY.all_items(artists))
