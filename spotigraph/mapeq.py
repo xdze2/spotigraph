@@ -11,6 +11,7 @@ from .explore import get_first_gen
 def build_links(
     nodes: List[Artist], verbose: bool = False
 ) -> List[Tuple[Artist, Artist]]:
+    """Build link list: A->B if B in related artist of A"""
     links = []
     for node in nodes:
         if verbose:
@@ -35,7 +36,7 @@ def normalize_name(artist_name):
 def to_integer_graph(
     nodes: List[Artist], links: List[Tuple[Artist, Artist]]
 ) -> Tuple[List[Artist], List[Tuple[int, int]]]:
-
+    """Replace Artist Type node to interger id."""
     sorted_nodes = sorted(nodes, key=lambda n: n.id)
     node_id_to_idx = {node.id: idx for idx, node in enumerate(sorted_nodes)}
 
@@ -48,7 +49,7 @@ def to_integer_graph(
 def export_to_pajek(
     output_path: str, sorted_nodes: List[Artist], links_by_ids: List[Tuple[int, int]]
 ) -> None:
-
+    """Export to Pajek text format."""
     Path(output_path).parent.mkdir(exist_ok=True, parents=True)
     with open(output_path, "w") as f:
 
