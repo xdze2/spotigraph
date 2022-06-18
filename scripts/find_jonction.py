@@ -4,7 +4,7 @@ from spotigraph.explore import get_first_gen, get_second_gen
 
 from spotigraph.types import Artist
 from spotigraph.network import build_links
-from spotigraph.network import export_to_pajek, to_integer_graph
+from spotigraph.network import export_to_pajek, to_integer_indexed_graph
 
 
 artist_id_a = "4ksCwAPgMi8rkQwwR3nMos"

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from spotigraph.explore import get_first_gen, get_second_gen, get_user_library
-from spotigraph.network import build_links, export_to_pajek, to_integer_graph
+from spotigraph.network import build_links, export_to_pajek, to_integer_indexed_graph
 from spotigraph.types import Artist
 
 
@@ -47,7 +47,7 @@ print("len(links):", len(links))
 # # # Command line flags can be added as a string to Infomap
 graph = Infomap(directed=True)
 
-sorted_nodes, links_by_ids = to_integer_graph(graph_nodes, links)
+sorted_nodes, links_by_ids = to_integer_indexed_graph(graph_nodes, links)
 graph.add_links(links_by_ids)
 
 

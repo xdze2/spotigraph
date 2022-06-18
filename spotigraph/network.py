@@ -11,7 +11,7 @@ from .explore import get_first_gen
 def build_links(
     nodes: List[Artist], verbose: bool = False
 ) -> List[Tuple[Artist, Artist]]:
-    """Build link list: A->B if B in related artist of A"""
+    """Build link list: A->B if B is in related artist of A"""
     links = []
     for node in nodes:
         if verbose:
@@ -26,14 +26,14 @@ def build_links(
     return links
 
 
-def normalize_name(artist_name):
+def normalize_name(artist_name: str) -> str:
     """Remove special char from string."""
     artist_name = unicodedata.normalize("NFKD", artist_name)
     artist_name = re.sub("\W+", "", artist_name)
     return artist_name
 
 
-def to_integer_graph(
+def to_integer_indexed_graph(
     nodes: List[Artist], links: List[Tuple[Artist, Artist]]
 ) -> Tuple[List[Artist], List[Tuple[int, int]]]:
     """Replace Artist Type node to interger id."""
