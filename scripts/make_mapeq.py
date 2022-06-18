@@ -84,12 +84,12 @@ plt.show()
 
 ## Sort A
 
-sorted_nodes = {node_id: idx for idx, node_id in enumerate(leaves_list(Z))}
+cluster_sorted_nodes = {node_id: idx for idx, node_id in enumerate(leaves_list(Z))}
 
-sorted_adjacency_matrix = np.zeros((len(sorted_nodes), len(sorted_nodes)))
+sorted_adjacency_matrix = np.zeros((len(cluster_sorted_nodes), len(cluster_sorted_nodes)))
 for a, b in links_by_ids:
-    i = sorted_nodes[a]
-    j = sorted_nodes[b]
+    i = cluster_sorted_nodes[a]
+    j = cluster_sorted_nodes[b]
     adjacency_matrix[i, j] = 1
 
 # print(adjacency_matrix)
@@ -98,6 +98,12 @@ plt.imshow(adjacency_matrix, cmap="Greys", interpolation="none")
 plt.show()
 
 
+for node_id in leaves_list(Z):
+    node = sorted_nodes[node_id]
+    print(f"{node.name: >30} ({node.popularity: 3d})")
+
+    # links_to = [link for link in links if link[0] == node_id]
+    # print(links_to)
 # The rest is just if you have sorted nodes by a partition and want to
 # highlight the module boundaries
 # assert len(partitions) == len(colors)
