@@ -12,7 +12,7 @@ from spotigraph.types import Artist
 
 
 # artist_id = "2omAWwH1ZV9JYIyfMUQSgG"
-artist_id ='1HY2Jd0NmPuamShAr6KMms'
+artist_id = "1HY2Jd0NmPuamShAr6KMms"
 
 seed_artist = get_artist(artist_id)
 print(seed_artist)
@@ -38,7 +38,6 @@ links = build_links(graph_nodes)
 print("len(links):", len(links))
 
 
-
 from scipy.cluster.hierarchy import dendrogram, linkage, leaves_list
 from scipy.spatial.distance import pdist
 
@@ -50,12 +49,9 @@ for a, b in links_by_ids:
 D = pdist(adjacency_matrix, metric="jaccard")
 Z = linkage(D, method="ward", metric="jaccard", optimal_ordering=True)
 
-labels = [
-    indexed_nodes[node_idx].name
-    for node_idx in leaves_list(Z)
-]
+labels = [indexed_nodes[node_idx].name for node_idx in leaves_list(Z)]
 fig = plt.figure(figsize=(5, 12))
-dn = dendrogram(Z, orientation='left', labels=labels)
+dn = dendrogram(Z, orientation="left", labels=labels)
 plt.subplots_adjust(left=0.1, right=0.5, top=0.9, bottom=0.1)
 plt.title(seed_artist.name)
 plt.show()
@@ -65,7 +61,9 @@ plt.show()
 
 cluster_sorted_nodes = {node_id: idx for idx, node_id in enumerate(leaves_list(Z))}
 
-sorted_adjacency_matrix = np.zeros((len(cluster_sorted_nodes), len(cluster_sorted_nodes)))
+sorted_adjacency_matrix = np.zeros(
+    (len(cluster_sorted_nodes), len(cluster_sorted_nodes))
+)
 for a, b in links_by_ids:
     i = cluster_sorted_nodes[a]
     j = cluster_sorted_nodes[b]
@@ -79,23 +77,29 @@ plt.show()
 
 for node_id in leaves_list(Z):
     node = indexed_nodes[node_id]
-    print(f"{node.name: >30} ({node.popularity: 3d}) {node.id} {node_counts[node.id]}{'*' if node.id in first_gen else ''}")
+    print(
+        f"{node.name: >30} ({node.popularity: 3d}) {node.id} {node_counts[node.id]}{'*' if node.id in first_gen else ''}"
+    )
 
 
 nodes_json_data = [
     {
-        'name': node.name,
-        'popularity': node.popularity,
-        'counts': node_counts[node.id],
-        'first_gen': node.id in first_gen,
-        'id': node.id
+        "name": node.name,
+        "popularity": node.popularity,
+        "counts": node_counts[node.id],
+        "first_gen": node.id in first_gen,
+        "id": node.id,
     }
-    for node in (
-        indexed_nodes[node_id] for node_id in leaves_list(Z)
-    )
+    for node in (indexed_nodes[node_id] for node_id in leaves_list(Z))
 ]
 
-output_path = f'output/nodes_{artist_id}.json' 
-with open(output_path, 'w') as f:
-    json.dump(nodes_json_data, f)
-print(f'Json saved to {output_path}')
+links_json = [
+    {"source": cluster_sorted_nodes[i], "target": cluster_sorted_nodes[j], "value": 1}
+    for i, j in links_by_ids
+]
+
+json_data = {"nodes": nodes_json_data, "links": links_json}
+output_path = f"output/local_net_{artist_id}.json"
+with open(output_path, "w") as f:
+    json.dump(json_data, f)
+print(f"Json saved to {output_path}")
