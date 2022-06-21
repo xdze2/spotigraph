@@ -11,8 +11,8 @@ from spotigraph.network import build_links, export_to_pajek, to_integer_indexed_
 from spotigraph.types import Artist
 
 
-# artist_id = "2omAWwH1ZV9JYIyfMUQSgG"
-artist_id = "1HY2Jd0NmPuamShAr6KMms"
+artist_id = "2omAWwH1ZV9JYIyfMUQSgG"
+# artist_id = "1HY2Jd0NmPuamShAr6KMms"
 
 seed_artist = get_artist(artist_id)
 print(seed_artist)
@@ -82,6 +82,9 @@ for node_id in leaves_list(Z):
     )
 
 
+#
+# Export to json
+#
 nodes_json_data = [
     {
         "name": node.name,
@@ -103,3 +106,52 @@ output_path = f"output/local_net_{artist_id}.json"
 with open(output_path, "w") as f:
     json.dump(json_data, f)
 print(f"Json saved to {output_path}")
+
+
+#
+# Circle
+
+from scipy.cluster.hierarchy import to_tree, ClusterNode
+
+#(Z, rd=False)[source]
+
+root = to_tree(Z)
+
+
+
+def build_tree(cluster_node: ClusterNode):
+
+    if cluster_node.is_leaf():
+        return [{'id': cluster_node.id, 'datum': 0.1}]
+    else:
+        return [{'children': build_tree(cluster_node.left) + build_tree(cluster_node.right), 'datum':cluster_node.count}]
+
+
+tree = build_tree(root)
+import circlify as circ
+from pprint import pprint
+pprint(tree)
+
+
+circles = circ.circlify(tree, show_enclosure=True)
+
+circ.bubbles(circles)
+
+
+
+
+# def cut_tree(node: TreeNode, top_left, bottom_right):
+
+#     if node.z_node.is_leaf():
+#         return '1'
+#     else:
+           
+
+
+#             return [
+#                 a_node,
+#                 b_node
+#             ]
+
+
+
