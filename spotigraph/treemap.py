@@ -23,12 +23,13 @@ class Rect:
     top_left: np.ndarray
     bottom_right: np.ndarray
 
+    def diag_xy(self):
+        return [self.top_left[0], self.bottom_right[0]], [self.top_left[1], self.bottom_right[1]]
 
 def iter_leaf(node: ClusterNode, rect: Rect):
 
     if node.is_leaf():
-        center = (rect.top_left + rect.bottom_right) / 2
-        yield center
+        yield rect, node.id
     else:
         left_rect, right_rect = split_rect(rect, node.left.count, node.right.count)
         yield from iter_leaf(node.left, left_rect)
@@ -39,21 +40,21 @@ def split_rect(rect: Rect, count_a: float, count_b: float) -> Tuple[Rect, Rect]:
     top_left = rect.top_left
     bottom_right = rect.bottom_right
     diag = top_left - bottom_right
-    ratio = count_a / (count_a + count_b)
-    if diag[1] > diag[0]:
-        # split vertical
+    ratio = count_b / (count_a + count_b)
+    if abs(diag[1]) > abs(diag[0]):
+        # split top / down
         tl_a = top_left
         br_a = bottom_right + np.array([0, diag[1] * ratio])
 
-        tl_b = top_left - np.array([0, diag[1] * ratio])
+        tl_b = top_left - np.array([0, diag[1] * (1-ratio)])
         br_b = bottom_right
 
     else:
-        # split horizontal
+        # split left / right
         tl_a = top_left
         br_a = bottom_right + np.array([diag[0] * ratio, 0])
 
-        tl_b = top_left - np.array([diag[0] * ratio, 0])
+        tl_b = top_left - np.array([diag[0] * (1-ratio), 0])
         br_b = bottom_right
 
     return (Rect(tl_a, br_a), Rect(tl_b, br_b))

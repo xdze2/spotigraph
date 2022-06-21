@@ -20,6 +20,8 @@ def test_split_rect():
     np.testing.assert_almost_equal(sr1[0].top_left, np.array([0, 1]))
     np.testing.assert_almost_equal(sr1[0].bottom_right, np.array([0.1, 0.5]))
 
+    np.testing.assert_almost_equal(sr1[1].top_left, np.array([0, 0.5]))
+    np.testing.assert_almost_equal(sr1[1].bottom_right, np.array([0.1, 0.]))
 
 
 
