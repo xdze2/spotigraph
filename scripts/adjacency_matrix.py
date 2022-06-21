@@ -11,7 +11,7 @@ from spotigraph.network import build_links, export_to_pajek, to_integer_indexed_
 from spotigraph.types import Artist
 
 
-artist_id = "6xoAWsIOZxJVPpo7Qvqaqv"
+artist_id = "15uNxh8omvRvH71kcdIe2r"
 # artist_id = "1HY2Jd0NmPuamShAr6KMms"
 
 seed_artist = get_artist(artist_id)
@@ -44,7 +44,7 @@ from scipy.spatial.distance import pdist
 indexed_nodes, links_by_ids = to_integer_indexed_graph(graph_nodes, links)
 adjacency_matrix = np.zeros((len(indexed_nodes), len(indexed_nodes)))
 for a, b in links_by_ids:
-    adjacency_matrix[a, b] = 1
+    adjacency_matrix[b, a] = 1
 
 D = pdist(adjacency_matrix, metric="jaccard")
 Z = linkage(D, method="ward", metric="jaccard", optimal_ordering=True)
@@ -127,5 +127,25 @@ leafs = [
 for c, name in leafs:
     plt.plot(*c.diag_xy(), '-o')
 
+plt.axis('square')
+plt.show()
+
+
+coords = {
+    leaf[1]: (leaf[0].top_left + leaf[0].bottom_right)/2
+    for leaf in iter_leaf(root, rect)
+}
+
+plt.figure()
+
+
+for a, b in links_by_ids:
+    a_coords = coords[a]
+    b_coords = coords[b]
+
+    x = [a_coords[0], b_coords[0]]
+    y = [a_coords[1], b_coords[1]]
+
+    plt.plot(x, y, '-', alpha=0.5)
 plt.axis('square')
 plt.show()

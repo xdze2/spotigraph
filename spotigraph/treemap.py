@@ -29,7 +29,7 @@ class Rect:
 def iter_leaf(node: ClusterNode, rect: Rect):
 
     if node.is_leaf():
-        yield rect, node.id
+        yield rect, node.get_id()
     else:
         left_rect, right_rect = split_rect(rect, node.left.count, node.right.count)
         yield from iter_leaf(node.left, left_rect)
